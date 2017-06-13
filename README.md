@@ -1,4 +1,4 @@
-# FasterPureCollectionView
+# FastScrollingCollectionView
 
 UICollectionView with optimized smooth scrolling and improved performance. 
 
@@ -34,21 +34,24 @@ DispatchQueue.global(qos: .background).async {
 We can load ahead images if you use the following delegate method.
 `func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {`
 
-And use queue (`ImageLoadOperation`) to cancel loading images when the cell showing loaded image get out of screen because UICollectionViewCell is reused and loaded image is often shown on wrong cell.
+※ loaded images will be often shown on the wrong cell because UICollectionViewCell is reused.
+So, Use queue (`ImageLoadOperation`) to cancel loading images when the cell showing them gets out of screen.
 
 ## 4. Use Integer for cell size
 
-It is easier for UICollectionView to calculate cell size.
+It is easier for the system to calculate UICollectionViewCell size.
 
 ## 5. Reuse objects
 
-Initialization is slow, especially UIView.
+Initialization is slow, especially of UIView.
 We should avoid initializing as possible as we can.
 
 Like this.
 
 ```
 guard imageView == nil else { return }
+
+// initialize an imageView
 ```
 
 ## 6. Avoid heavy drawing processing
@@ -67,9 +70,9 @@ We expect processing reduction.
 - Reduce the number of subviews.
 - Fix cell size after loading contents before display it.
 
-## 7. Refresh only when not refreshing
+## 7. Refresh only when not in refresh
 
-We don't have to refresh every time you pull to refresh.
+We don't have to reload data every time you pull to refresh.
 
 ```
 if refreshControl.isRefreshing {
@@ -91,7 +94,7 @@ coordinator.animate(alongsideTransition: { [weak self] context in
 
 ## 9. Use fixed size for cell (Avoid using Self-Sizing Cells)
 
-We expect processing reduction of Self-Sizing Cells if we use fixed size for cells.
+We expect reducing the processing of Self-Sizing Cells if we use fixed size for cells.
 
 ```
 override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
